@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<c2eventsheet>
+    <!--All the 'name' attributes are ignored by Construct 2 - they are there for readability only.-->
+    <name>BetaMapSheet</name>
+    <events>
+        <include>Event sheet 1</include>
+        <event-block sid="9097420579448879">
+            <conditions>
+                <condition id="0" name="On key pressed" sid="7729430638996543" type="Keyboard">
+                    <param id="0" name="Key">70 (F)</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action disabled="1" id="0" name="Spawn another object" sid="9643572396512027" type="Player">
+                    <param id="0" name="Object">arcane_missile_small</param>
+                    <param id="1" name="Layer">0</param>
+                    <param id="2" name="Image point">0</param>
+                </action>
+                <action disabled="1" id="-8" name="Set angle" sid="3559340839000986" type="arcane_missile_small">
+                    <param id="0" name="Angle">angle(player.X,player.Y,mouse.X,mouse.y)</param>
+                </action>
+                <action id="0" name="Spawn another object" sid="6715432740338573" type="Player">
+                    <param id="0" name="Object">ball</param>
+                    <param id="1" name="Layer">0</param>
+                    <param id="2" name="Image point">0</param>
+                </action>
+                <action id="-8" name="Set angle" sid="4643526676420349" type="ball">
+                    <param id="0" name="Angle">angle(player.X,player.Y,mouse.X,mouse.y)</param>
+                </action>
+            </actions>
+        </event-block>
+        <event-group description="" sid="3296099873938537" title="Group2">
+            <sub-events>
+                <variable constant="0" name="Amount" sid="5146984013901495" static="0" type="number">3</variable>
+                <variable comment="angle that needs to be added every time" constant="0" name="AddingAngle" sid="1707058338025419" static="0" type="number">0</variable>
+                <variable comment="current angle" constant="0" name="CurAngle" sid="3867090275809172" static="0" type="number">0</variable>
+                <event-block sid="596054231656777">
+                    <conditions>
+                        <condition behavior="Bullet" id="1" name="Compare distance travelled" sid="6273715886125043" type="arcane_missile_small">
+                            <param id="0" name="Comparison">5</param>
+                            <param id="1" name="Distance">300</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Destroy" sid="4736452920059663" type="arcane_missile_small" />
+                        <action id="-9" name="Set value" sid="950610582290961" type="System">
+                            <param id="0" name="Variable">AddingAngle</param>
+                            <param id="1" name="Value">180/(Amount+1)</param>
+                        </action>
+                        <action id="0" name="Spawn another object" sid="1546728085258206" type="arcane_missile_small">
+                            <param id="0" name="Object">arcaneParticle</param>
+                            <param id="1" name="Layer">0</param>
+                            <param id="2" name="Image point">0</param>
+                        </action>
+                        <action id="-8" name="Set angle" sid="721876718805063" type="arcaneDarkParticle">
+                            <param id="0" name="Angle">arcane_missile_small.Angle</param>
+                        </action>
+                        <action id="24" name="Play at position" sid="8749790632048387" type="Audio">
+                            <param id="0" name="Audio file">arcaneSound</param>
+                            <param id="1" name="Loop">0</param>
+                            <param id="2" name="Volume">0</param>
+                            <param id="3" name="X">arcane_missile_small.X</param>
+                            <param id="4" name="Y">arcane_missile_small.Y</param>
+                            <param id="5" name="Angle">0</param>
+                            <param id="6" name="Inner angle">360</param>
+                            <param id="7" name="Outer angle">360</param>
+                            <param id="8" name="Outer gain">0</param>
+                            <param id="9" name="Tag (optional)">&quot;&quot;</param>
+                        </action>
+                    </actions>
+                    <sub-events>
+                        <comment>even</comment>
+                        <event-block sid="4255579211789594">
+                            <conditions>
+                                <condition id="-8" name="Compare two values" sid="5435081195844332" type="System">
+                                    <param id="0" name="First value">Amount%2</param>
+                                    <param id="1" name="Comparison">0</param>
+                                    <param id="2" name="Second value">0</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Set value" sid="2493289543206072" type="System">
+                                    <param id="0" name="Variable">CurAngle</param>
+                                    <param id="1" name="Value">-(Amount/2*AddingAngle)+arcane_missile_small.Bullet.AngleOfMotion-random(-20,20)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <comment>uneven</comment>
+                        <event-block sid="8962855338001027">
+                            <conditions>
+                                <condition id="-22" name="Else" sid="5108049493049325" type="System" />
+                            </conditions>
+                            <actions>
+                                <action id="-9" name="Set value" sid="9995004880370231" type="System">
+                                    <param id="0" name="Variable">CurAngle</param>
+                                    <param id="1" name="Value">-((Amount-1)/2*AddingAngle)+arcane_missile_small.Bullet.AngleOfMotion-random(-20,20)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="185804024431351">
+                            <conditions>
+                                <condition id="-12" name="Repeat" sid="6871798522536208" type="System">
+                                    <param id="0" name="Count">Amount</param>
+                                </condition>
+                            </conditions>
+                            <actions>
+                                <action id="0" name="Spawn another object" sid="5356103664986864" type="arcane_missile_small">
+                                    <param id="0" name="Object">arcane_missile_spawn</param>
+                                    <param id="1" name="Layer">0</param>
+                                    <param id="2" name="Image point">0</param>
+                                </action>
+                                <action behavior="Bullet" id="3" name="Set angle of motion" sid="5357461573030984" type="arcane_missile_spawn">
+                                    <param id="0" name="Angle">CurAngle</param>
+                                </action>
+                                <action id="-8" name="Set angle" sid="1783681040343086" type="arcane_missile_spawn">
+                                    <param id="0" name="Angle">CurAngle</param>
+                                </action>
+                                <action behavior="Pin" id="0" name="Pin to object" sid="836313194629568" type="arcaneFollower">
+                                    <param id="0" name="Pin to">arcane_missile_spawn</param>
+                                    <param id="1" name="Mode">0</param>
+                                </action>
+                                <action id="-4" name="Set position to another object" sid="606089574401396" type="arcaneFollower">
+                                    <param id="0" name="Object">arcane_missile_spawn</param>
+                                    <param id="1" name="Image point (optional)">&quot;tail&quot;</param>
+                                </action>
+                                <action id="-9" name="Set value" sid="9503916896462353" type="System">
+                                    <param id="0" name="Variable">CurAngle</param>
+                                    <param id="1" name="Value">CurAngle+AddingAngle-random(-20,20)</param>
+                                </action>
+                            </actions>
+                        </event-block>
+                        <event-block sid="7451918528141515">
+                            <conditions />
+                            <actions />
+                        </event-block>
+                    </sub-events>
+                </event-block>
+                <event-block sid="3357157220384805">
+                    <conditions>
+                        <condition behavior="Bullet" id="1" name="Compare distance travelled" sid="628346633961594" type="arcane_missile_spawn">
+                            <param id="0" name="Comparison">5</param>
+                            <param id="1" name="Distance">600</param>
+                        </condition>
+                    </conditions>
+                    <actions>
+                        <action id="-9" name="Destroy" sid="5339321012481581" type="arcane_missile_spawn" />
+                    </actions>
+                </event-block>
+            </sub-events>
+        </event-group>
+        <event-block sid="5136195705779579">
+            <conditions>
+                <condition behavior="Bullet" id="0" name="Compare speed" sid="1879455355569512" type="ball">
+                    <param id="0" name="Comparison">3</param>
+                    <param id="1" name="Speed">0</param>
+                </condition>
+            </conditions>
+            <actions>
+                <action id="-9" name="Destroy" sid="3530229198534924" type="ball" />
+            </actions>
+        </event-block>
+    </events>
+</c2eventsheet>
